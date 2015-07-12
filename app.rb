@@ -7,7 +7,7 @@ after do
 	@db.close
 end
 
-get '/' do
+get '/' do #一覧の表示
 	sql = <<-SQL
 		SELECT * FROM ziplist;
 	SQL
@@ -15,11 +15,11 @@ get '/' do
 	erb :index,layout: :layout
 end
 
-get '/new' do
+get '/new' do #データ入力ホーム
 	erb :new,layout: :layout
 end
 
-post '/new/receive' do
+post '/new/receive' do #/newから返ってきた値をDBに挿入
 	@zipcode = params[:zipcode]
 	@address = params[:address]
 	sql = <<-SQL
@@ -30,7 +30,12 @@ post '/new/receive' do
 	redirect '/'
 end
 
-get '/edit/:id/receive' do
+get '/edit/:id' do #データ編集ホーム
+	@id = params["id"]
+	erb :edit,layout: :layout
+end
+
+get '/edit/:id/receive' do #/editから返ってきた値にDBを更新
 	@id = params["id"]
 	@zipcode = params["zipcode"]
 	@address = params["address"]
@@ -41,16 +46,15 @@ get '/edit/:id/receive' do
 	redirect '/'
 end
 
-get '/edit/:id' do
-	@id = params["id"]
-	erb :edit,layout: :layout
-end
-
-get '/delete/:id' do
+get '/delete/:id' do #データをDBから削除する
 	@id = params["id"]
 	sql = <<-SQL
 		DELETE FROM ziplist WHERE id = "#{@id}";
 	SQL
 	@db.execute(sql)
 	redirect '/'
+end
+
+get '/search' do #検索ホーム
+	erb :search,layout: :layout
 end
