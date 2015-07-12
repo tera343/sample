@@ -3,5 +3,5 @@ require 'sqlite3'
 
 get '/' do
 	
-	erb index,layout: :layout
+	erb :index,layout: :layout
 end
