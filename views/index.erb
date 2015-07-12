@@ -1,1 +1,22 @@
-<p>メイン画面</p>
+<div  class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>zipcode</th>
+        <th>address</th>
+        <th>option</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @rows.each do |row| %>
+      <tr>
+        <th><%= row[0] %></th>
+        <th><%= row[1] %></th>
+        <th><%= row[2] %></th>
+        <th><a href="/edit/<%=row[0]%>">edit</a> <a href="/delete/<%=row[0]%>">delete</a><th>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
