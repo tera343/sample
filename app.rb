@@ -29,3 +29,28 @@ post '/new/receive' do
 	@db.execute(sql)
 	redirect '/'
 end
+
+get '/edit/:id/receive' do
+	@id = params["id"]
+	@zipcode = params["zipcode"]
+	@address = params["address"]
+	sql = <<-SQL
+		UPDATE ziplist SET zipcode = "#{@zipcode}",address = "#{@address}" WHERE id = "#{@id}"
+	SQL
+	@db.execute(sql)
+	redirect '/'
+end
+
+get '/edit/:id' do
+	@id = params["id"]
+	erb :edit,layout: :layout
+end
+
+get '/delete/:id' do
+	@id = params["id"]
+	sql = <<-SQL
+		DELETE FROM ziplist WHERE id = "#{@id}";
+	SQL
+	@db.execute(sql)
+	redirect '/'
+end
